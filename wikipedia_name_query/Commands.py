@@ -1,5 +1,5 @@
 import argparse
-from Classes import Person, get_list
+from Person import Person, get_list
 
 
 def main1():
@@ -18,8 +18,8 @@ def main1():
         Person(args.Name).get_DOB()
         Person(args.Name).get_DOD()
     elif args.command == 'save':
-        Saved_list = get_list()
-        print(Saved_list)
+        get_list(args.Name)
+        
 
     else:
         print('No such command please try again')
