@@ -2,8 +2,6 @@
 ---
 # wikipedia_name_query
 
-[![codecov](https://codecov.io/gh/M-A-T-T-Y-D/Wikipedia-Name-Query/branch/main/graph/badge.svg?token=Wikipedia-Name-Query_token_here)](https://codecov.io/gh/M-A-T-T-Y-D/Wikipedia-Name-Query)
-[![CI](https://github.com/M-A-T-T-Y-D/Wikipedia-Name-Query/actions/workflows/main.yml/badge.svg)](https://github.com/M-A-T-T-Y-D/Wikipedia-Name-Query/actions/workflows/main.yml)
 
 Awesome wikipedia_name_query created by M-A-T-T-Y-D
 
@@ -16,6 +14,14 @@ python Commands.py name --Name "Insert Name" = This command retrieves the full n
 python Commands.py DOB --Name "Insert Name" = This command retrieves the Date of birth of a specified person<br>
 python Commands.py DOD --Name "Insert Name" = This command retrieves the date of death of a specified person<br>
 python Commands.py Output --Name "Insert Name" = This command outputs everything collected about that person</p>
+
+<p>Examples of use<br>
+python Commands.py Output --Name "Donald Trump" would return...<br> 
+
+Callum MacDonald<br>
+Callum MacDonald Is 40 Years Old<br>
+Callum MacDonald was born on: 1983-05-31<br>
+Callum MacDonald Still alive</p>
 
 
 
