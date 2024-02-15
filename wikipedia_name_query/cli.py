@@ -1,4 +1,4 @@
-"""CLI interface for project_name project.
+"""CLI interface for wikipedia_name_query project.
 
 Be creative! do whatever you want!
 
@@ -12,7 +12,7 @@ Be creative! do whatever you want!
 def main():  # pragma: no cover
     """
     The main function executes on commands:
-    `python -m project_name` and `$ project_name `.
+    `python -m wikipedia_name_query` and `$ wikipedia_name_query `.
 
     This is your program's entry point.
 
