@@ -1,5 +1,5 @@
 import argparse
-from Person import Person, get_list
+from Person import Person
 
 
 def main1():
@@ -17,8 +17,7 @@ def main1():
         Person(args.Name).get_age()
         Person(args.Name).get_DOB()
         Person(args.Name).get_DOD()
-    elif args.command == 'save':
-        get_list(args.Name)
+    
         
 
     else:
@@ -45,9 +44,6 @@ DOD_parser.add_argument('--Name', type=str, default=False, help='Selects person'
 
 Output_parser = subparsers.add_parser('Output', help='Prints the data collected about the person')
 Output_parser.add_argument('--Name', type=str, default=False, help='Selects person')
- 
-save_parser = subparsers.add_parser('save', help='Saves the data to a csv file')
-save_parser.add_argument('--Name', type=str, default=False, help='Selects person')
 
 args = parser.parse_args()
 

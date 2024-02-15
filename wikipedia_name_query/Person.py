@@ -40,16 +40,6 @@ class Person():
         print(person_info[0][0],'Is', age ,'Years Old')
         self.age = (age)
 
-def get_list(name):
-    person_info = get_person_info(name)
-    FullName = person_info[0][0]
-    DOB = person_info[0][1]
-    DOD = person_info[0][2]
-    f = open("People.csv","w")
-    old = open("People.csv","r")
-    New = ("{} {} {} {} \n").format(old, FullName, DOB, DOD)
-    f.write(New)
-    f.close()
     
 
  
