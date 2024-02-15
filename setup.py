@@ -1,4 +1,4 @@
-"""Python setup.py for project_name package"""
+"""Python setup.py for wikipedia_name_query package"""
 import io
 import os
 from setuptools import find_packages, setup
@@ -6,7 +6,7 @@ from setuptools import find_packages, setup
 
 def read(*paths, **kwargs):
     """Read the contents of a text file safely.
-    >>> read("project_name", "VERSION")
+    >>> read("wikipedia_name_query", "VERSION")
     '0.1.0'
     >>> read("README.md")
     ...
@@ -30,17 +30,17 @@ def read_requirements(path):
 
 
 setup(
-    name="project_name",
-    version=read("project_name", "VERSION"),
-    description="project_description",
-    url="https://github.com/author_name/project_urlname/",
+    name="wikipedia_name_query",
+    version=read("wikipedia_name_query", "VERSION"),
+    description="Awesome wikipedia_name_query created by M-A-T-T-Y-D",
+    url="https://github.com/M-A-T-T-Y-D/Wikipedia-Name-Query/",
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
-    author="author_name",
+    author="M-A-T-T-Y-D",
     packages=find_packages(exclude=["tests", ".github"]),
     install_requires=read_requirements("requirements.txt"),
     entry_points={
-        "console_scripts": ["project_name = project_name.__main__:main"]
+        "console_scripts": ["wikipedia_name_query = wikipedia_name_query.__main__:main"]
     },
     extras_require={"test": read_requirements("requirements-test.txt")},
 )
