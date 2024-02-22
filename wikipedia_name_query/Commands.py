@@ -3,6 +3,10 @@ from Person import Person
 
 
 def main1():
+    """
+    The purpose of this function is to take the user input from terminal, as well as the entered command and
+    query wikipedia retreiving the information which is outputted depending on what command the user used
+    """
     if args.command == 'name':
         Person(args.Name).get_FullName()
         
@@ -23,29 +27,29 @@ def main1():
     else:
         print('No such command please try again')
         
+    parser = argparse.ArgumentParser(description='Find data about someone')#creates the list of commands and their description
+    subparsers = parser.add_subparsers(help='commands', dest='command')
 
 
-parser = argparse.ArgumentParser(description='Find data about someone')#creates the list of commands and their description
-subparsers = parser.add_subparsers(help='commands', dest='command')
+    name_parser = subparsers.add_parser('name', help='Selects the person')#shortens the command 
+    name_parser.add_argument('--Name', type=str, default=False, help='Selects person' )
 
 
-name_parser = subparsers.add_parser('name', help='Selects the person')#shortens the command 
-name_parser.add_argument('--Name', type=str, default=False, help='Selects person' )
+    age_parser = subparsers.add_parser('age', help='Retrieves the age')
+    age_parser.add_argument('--Name', type=str, default=False, help='Selects person')#this command starts the code to find the persons age
+
+    DOB_parser = subparsers.add_parser('DOB', help='retrieves the date of birth')
+    DOB_parser.add_argument('--Name', type=str, default=False, help='Selects person ')
+
+    DOD_parser = subparsers.add_parser('DOD', help='Retreives the date of death')
+    DOD_parser.add_argument('--Name', type=str, default=False, help='Selects person')
+
+    Output_parser = subparsers.add_parser('Output', help='Prints the data collected about the person')
+    Output_parser.add_argument('--Name', type=str, default=False, help='Selects person')
+
+    args = parser.parse_args()  
 
 
-age_parser = subparsers.add_parser('age', help='Retrieves the age')
-age_parser.add_argument('--Name', type=str, default=False, help='Selects person')#this command starts the code to find the persons age
-
-DOB_parser = subparsers.add_parser('DOB', help='retrieves the date of birth')
-DOB_parser.add_argument('--Name', type=str, default=False, help='Selects person ')
-
-DOD_parser = subparsers.add_parser('DOD', help='Retreives the date of death')
-DOD_parser.add_argument('--Name', type=str, default=False, help='Selects person')
-
-Output_parser = subparsers.add_parser('Output', help='Prints the data collected about the person')
-Output_parser.add_argument('--Name', type=str, default=False, help='Selects person')
-
-args = parser.parse_args()
 
 if __name__ == '__main__':
     main1()

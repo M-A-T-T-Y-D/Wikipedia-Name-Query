@@ -1,15 +1,17 @@
 from Query import get_person_info, calculate_age
 class Person():
     def __init__(self, name):
-        '''
-        Function: Used to state the variables you want to use in the class 
-        self.name: the users input for the name
-        self.FullName: the data collected from the query of the full name
-        self.age: the calculation needed to work out the age of the person
-        self.DOB: the data collected from the query of the date of birth
-        self.DOD: the data collected from the query of the Date Of Death
-        
-        '''
+        """
+        This function takes the users input from the main program and calls the query 
+        which returns the output
+
+        Parameters
+        -----------
+        Person_info : list
+            This is a list of all data collected from the query
+        age : Int
+            This is the calculated age of the person
+        """
         self.name = name 
         self.FullName = 'None'
         self.age = 0
