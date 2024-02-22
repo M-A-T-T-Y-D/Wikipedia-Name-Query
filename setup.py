@@ -37,10 +37,11 @@ setup(
     long_description=read("README.md"),
     long_description_content_type="text/markdown",
     author="M-A-T-T-Y-D",
-    packages=find_packages(exclude=["tests", ".github"]),
+    license= 'MIT',
     install_requires=read_requirements("requirements.txt"),
     entry_points={
         "console_scripts": ["wikipedia_name_query = wikipedia_name_query.__main__:main"]
     },
     extras_require={"test": read_requirements("requirements-test.txt")},
-)
+    zip_safe=False
+    )

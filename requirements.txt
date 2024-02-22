@@ -1,2 +1,1 @@
 SPARQLWrapper==2.0.1a0
-SPARQLWrapper==2.0.0
