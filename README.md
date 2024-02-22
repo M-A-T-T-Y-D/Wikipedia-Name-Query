@@ -11,21 +11,48 @@ This Module utilises the terminal to input commands instead of running the code 
 ## Commands for terminal
 
 
-python Command.py -h = Displays every command with a description<br>
-python Commands.py age --Name "Insert Name" = this command retrieves the age of the specified person<br>
-python Commands.py name --Name "Insert Name" = This command retrieves the full name of a specified person<br>
-python Commands.py DOB --Name "Insert Name" = This command retrieves the Date of birth of a specified person<br>
-python Commands.py DOD --Name "Insert Name" = This command retrieves the date of death of a specified person<br>
-python Commands.py Output --Name "Insert Name" = This command outputs everything collected about that person<br>
+Displays every command with a description: 
+
+``` 
+python Command.py -h
+```  
+
+retrieves the age of the specified person
+```
+python Commands.py age --Name "Insert Name"
+```  
+Retreives the full name of a specified person
+
+```
+python Commands.py name --Name "Insert Name"
+```
+
+retrieves the Date of birth of a specified person
+
+```
+python Commands.py DOB --Name "Insert Name"
+```
+retrieves the date of death of a specified person
+
+```
+python Commands.py DOD --Name "Insert Name"
+```
+
+outputs everything collected about that person
+```
+python Commands.py Output --Name "Insert Name"
+``` 
 
 ## Examples of use
-python Commands.py Output --Name "Donald Trump" <br>
-would return...<br>
+```
+python Commands.py Output --Name "Donald Trump" 
+```
+would return... 
 
-Callum MacDonald<br>
-Callum MacDonald Is 40 Years Old<br>
-Callum MacDonald was born on: 1983-05-31<br>
-Callum MacDonald Still alive<br>
+Donald Trump 
+Donald Trump Is 77 Years Old  
+Donald Trump was born on: 1946-06-14  
+Donald Trump Still alive  
 
 
 
