@@ -1,6 +1,9 @@
-from Query import get_person_info, calculate_age
+from Query import Query
+from Commands import *
+
+
 class Person():
-    def __init__(self, name):
+    def __init__(self,):
         '''
         Function: Used to state the variables you want to use in the class 
         self.name: the users input for the name
@@ -10,36 +13,26 @@ class Person():
         self.DOD: the data collected from the query of the Date Of Death
         
         '''
-        self.name = name 
-        self.FullName = 'None'
-        self.age = 0
-        self.DOB = 0
-        self.DOD = 0
 
 
-    def get_FullName(self):
-        person_info = get_person_info(self.name)
-        print(person_info[0][0]) #Runs the query to retreive the full name
-        self.FullName = (person_info[0][0])
-        global name
-        name = self.name
 
-    def get_DOB(self):
-        person_info = get_person_info(self.name)
-        print(person_info[0][0],'was born on:',person_info[0][1])
-        self.DOB = (person_info[0][1])
+        self.name = None 
+        self.fullname = None
+        self.age = None
+        self.dob = None
+        self.dod = None
 
-    def get_DOD(self):
-        person_info = get_person_info(self.name)
-        print(person_info[0][0], person_info[0][2])
-        self.DOD = (person_info[0][2])
+    def Load(self):
+        self.name = args.Name
+        x = Query()
+        person_info = x.get_person_info(self.name)
+        self.fullname = person_info[0][1]
+        self.dob = person_info[0][1]
+        self.dod = person_info[0][2]
+        age = x.calculate_age(person_info[0][1])
+        self.age = age
+        return self.fullname, self.dob, self.dod, self.age
 
-    def get_age(self):
-        person_info = get_person_info(self.name)
-        age = calculate_age(person_info[0][1])
-        print(person_info[0][0],'Is', age ,'Years Old')
-        self.age = (age)
 
-    
 
- 
+

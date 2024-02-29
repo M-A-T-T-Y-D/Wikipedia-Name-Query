@@ -2,21 +2,25 @@ import argparse
 from Person import Person
 
 
-def main1():
+def main(self):
     if args.command == 'name':
-        Person(args.Name).get_FullName()
-        
+        Person(args.Name).Load()
+        print(self.fullname)
     elif args.command == 'age':
-        Person(args.Name).get_age()
+        Person(args.Name).Load()
+        print(self.age)
     elif args.command == 'DOB':
-        Person(args.Name).get_DOB()
+        Person(args.Name).Load()
+        print(self.dob)
     elif args.command == 'DOD':
-        Person(args.Name).get_DOD()
+        Person(args.Name).Load()
+        print(self.dod)
     elif args.command == 'Output':
-        Person(args.Name).get_FullName()
-        Person(args.Name).get_age()
-        Person(args.Name).get_DOB()
-        Person(args.Name).get_DOD()
+        Person(args.Name).Load()
+        print(self.fullname)
+        print(self.age)
+        print(self.dob)
+        print(self.dod)
     
         
 
@@ -48,4 +52,4 @@ Output_parser.add_argument('--Name', type=str, default=False, help='Selects pers
 args = parser.parse_args()
 
 if __name__ == '__main__':
-    main1()
+    main()
