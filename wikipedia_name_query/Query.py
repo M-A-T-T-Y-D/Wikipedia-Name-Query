@@ -1,8 +1,9 @@
 from SPARQLWrapper import SPARQLWrapper, JSON
-from datetime import datetime
+
 
 
 class Query():
+    @staticmethod
     def get_person_info(person_name):
         # Set up the SPARQL endpoint
         sparql = SPARQLWrapper("http://dbpedia.org/sparql")
@@ -27,18 +28,10 @@ class Query():
         for result in results["results"]["bindings"]:
             full_name = result["name"]["value"]
             birth_date = result["birthDate"]["value"]
-            death_date = result["deathDate"]["value"] if "deathDate" in result else "Still alive"
+            death_date = result["deathDate"]["value"] if "deathDate" in result else None
             person_info.append((full_name, birth_date, death_date))
         return person_info
         
 
 
 
-    def calculate_age(birth_date, death_date=None):
-        birth_date = datetime.strptime(birth_date, "%Y-%m-%d")
-        if death_date:
-            death_date = datetime.strptime(death_date, "%Y-%m-%d")
-            age = (death_date - birth_date).days // 365
-        else:
-            age = (datetime.now() - birth_date).days // 365
-        return age
