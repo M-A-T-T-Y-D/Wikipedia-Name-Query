@@ -32,7 +32,24 @@ class Person():
         age = x.calculate_age(person_info[0][1])
         self.age = age
         return self.fullname, self.dob, self.dod, self.age
+    
 
+    def set_fullname(self):
+        name = input("what would you like to set the name as")
+        self.fullname = name
+        return self.fullname
 
-
-
+    def set_age(self):
+        age = input("what would you like to set the age as")
+        self.age = age
+        return self.age
+    
+    def set_dob(self):
+        dob = input("what would you like to set the dob as")
+        self.dob = dob
+        return self.dob
+    
+    def set_dod(self):
+        dod = input("what would you like to set the dod as")
+        self.dod = dod
+        return self.dod
