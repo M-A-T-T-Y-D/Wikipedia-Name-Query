@@ -17,7 +17,9 @@ def get_person_info(person_name):
         Returns
         --------
         person_info
-            the list is sent back to Person.py to be used to store all output data that is needed.
+            The list is sent back to Person.py to be used to store all output data that is needed.
+            If no person is found on wikipedia then it will return data for someone with a simmilar
+            name
         """
 
         sparql = SPARQLWrapper("http://dbpedia.org/sparql")
