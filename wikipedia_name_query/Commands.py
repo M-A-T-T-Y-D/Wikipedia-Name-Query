@@ -76,12 +76,14 @@ class Commands():
             dod = Person(args.dod).set_dod()
             print("you set dod to", dod)
 
-        
-        
-
-
         else:
             print('No such command please try again')
+        
+    parser = argparse.ArgumentParser(description='Find data about someone')#creates the list of commands and their description
+    subparsers = parser.add_subparsers(help='commands', dest='command')
+
+
+        
             
 
 
