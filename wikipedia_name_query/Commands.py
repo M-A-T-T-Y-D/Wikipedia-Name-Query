@@ -78,12 +78,6 @@ class Commands():
 
         else:
             print('No such command please try again')
-        
-    parser = argparse.ArgumentParser(description='Find data about someone')#creates the list of commands and their description
+
+    parser = argparse.ArgumentParser(description='Find data about someone')
     subparsers = parser.add_subparsers(help='commands', dest='command')
-
-
-        
-            
-
-

@@ -7,7 +7,7 @@ class Query():
     @staticmethod
     def get_person_info(person_name):
         # Set up the SPARQL endpoint
-        if person_name == None:
+        if person_name is None:
             raise ValueError
         sparql = SPARQLWrapper("http://dbpedia.org/sparql")
         sparql.setQuery("""
