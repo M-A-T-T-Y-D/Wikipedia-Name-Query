@@ -15,17 +15,17 @@ class Commands():
         age_parser = subparsers.add_parser('age', help='Retrieves the age')
         age_parser.add_argument('--Name', type=str, default=False, help='Selects person')#this command starts the code to find the persons age
 
-        DOB_parser = subparsers.add_parser('DOB', help='retrieves the date of birth')
-        DOB_parser.add_argument('--Name', type=str, default=False, help='Selects person ')
+        dob_parser = subparsers.add_parser('DOB', help='retrieves the date of birth')
+        dob_parser.add_argument('--Name', type=str, default=False, help='Selects person ')
 
-        DOD_parser = subparsers.add_parser('DOD', help='Retreives the date of death')
-        DOD_parser.add_argument('--Name', type=str, default=False, help='Selects person')
+        dod_parser = subparsers.add_parser('DOD', help='Retreives the date of death')
+        dod_parser.add_argument('--Name', type=str, default=False, help='Selects person')
 
-        Load_parser = subparsers.add_parser('Load', help='Prints the data collected about the person')
-        Load_parser.add_argument('--Name', type=str, default=False, help='Selects person')
+        load_parser = subparsers.add_parser('Load', help='Prints the data collected about the person')
+        load_parser.add_argument('--Name', type=str, default=False, help='Selects person')
 
-        setFname_parser = subparsers.add_parser('set_name', help='sets the variable for testing')
-        setFname_parser.add_argument('--Name', type=str, default=False, help='sets the name to the input')
+        setfname_parser = subparsers.add_parser('set_name', help='sets the variable for testing')
+        setfname_parser.add_argument('--Name', type=str, default=False, help='sets the name to the input')
 
         setage_parser = subparsers.add_parser('set_age', help='sets the age for testing')
         setage_parser.add_argument('--age', type=str, default=False, help='sets the age to input')
@@ -48,11 +48,11 @@ class Commands():
             print(age)
 
 
-        elif args.command == 'DOB':
+        elif args.command == 'dob':
             dob = x.get_dob()
             print(dob)
 
-        elif args.command == 'DOD':
+        elif args.command == 'dod':
             dod = x.get_dod()
             print(dod)
 
@@ -60,7 +60,7 @@ class Commands():
 
 
 
-        elif args.command == 'setFname':
+        elif args.command == 'setfname':
             fullname = Person(args.Name).set_fullname()
             print("you set the name to", fullname)
 
