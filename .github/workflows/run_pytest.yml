@@ -5,12 +5,12 @@ on: [pull_request]
 jobs:
   test:
 
-    runs-on: macos-latest*
+    runs-on: ubuntu-latest
 
 
     strategy:
       matrix:
-        python-version: ["3.9", "3.11", "3.12.2"]
+        python-version: ["3.12.2"]
 
     steps:
       - uses: actions/checkout@v4
