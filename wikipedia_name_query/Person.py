@@ -12,6 +12,7 @@ class Person():
         self.age: the calculation needed to work out the age of the person
         self.DOB: the data collected from the query of the date of birth
         self.DOD: the data collected from the query of the Date Of Death
+        test
         '''
 
 
