@@ -23,4 +23,4 @@ jobs:
         python -m pip install --upgrade pip
         python -m pip install -U pylint
     - name: Run pylint
-      run: python lint.py --path ./src --threshold 2
+      run: python lint.py --path ./Wikipedia_name_query --threshold 8.5
