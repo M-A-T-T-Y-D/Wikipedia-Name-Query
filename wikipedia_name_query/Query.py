@@ -1,11 +1,21 @@
+'''
+The module SPARQLWrapper is used to send and format the sql query 
+'''
+
 from SPARQLWrapper import SPARQLWrapper, JSON
 
 
 
-
 class Query():
+    '''
+    This is a class used to hold the query
+    '''
     @staticmethod
     def get_person_info(person_name):
+        '''
+        This function querys dhpedia for the emtered person and retreives the data needed,
+        this is then put into a format and ready to be output
+        '''
         # Set up the SPARQL endpoint
         if person_name is None:
             raise ValueError
@@ -33,13 +43,6 @@ class Query():
             birth_date = result["birthDate"]["value"]
             death_date = result["deathDate"]["value"] if "deathDate" in result else None
             person_info.append([full_name, birth_date, death_date])
-            #print(person_info)
         if person_info == []:
             return None
         return person_info
-    
-    
-        
-
-
-

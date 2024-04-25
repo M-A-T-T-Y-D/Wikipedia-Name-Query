@@ -1,19 +1,31 @@
+'''
+argparse is used to create the terminal commands
+'''
 import argparse
-from wikipedia_name_query.Person import Person
+from wikipedia_name_query.person import Person
 
 
 class Commands():
+    """
+    Class to hold custom terminal commands
+    """
     def commands(self):
-        parser = argparse.ArgumentParser(description='Find data about someone')#creates the list of commands and their description
+        """
+        This function adds the terminal commands and gives them information
+        that can be requested using -h
+        """
+        parser = argparse.ArgumentParser(description='Find data about someone')
+        #creates the list of commands and their description
         subparsers = parser.add_subparsers(help='commands', dest='command')
 
 
-        name_parser = subparsers.add_parser('name', help='Selects the person')#shortens the command 
+        name_parser = subparsers.add_parser('name', help='Selects the person')#shortens the command
         name_parser.add_argument('--Name', type=str, default=False, help='Selects person' )
 
 
         age_parser = subparsers.add_parser('age', help='Retrieves the age')
-        age_parser.add_argument('--Name', type=str, default=False, help='Selects person')#this command starts the code to find the persons age
+        age_parser.add_argument('--Name', type=str, default=False, help='Selects person')
+        #this command starts the code to find the persons age
 
         dob_parser = subparsers.add_parser('DOB', help='retrieves the date of birth')
         dob_parser.add_argument('--Name', type=str, default=False, help='Selects person ')
