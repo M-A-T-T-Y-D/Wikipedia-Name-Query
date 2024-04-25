@@ -6,7 +6,7 @@ from wikipedia_name_query.query import Query
 
 #class q_test():
 @pytest.fixture
-def query_test12():
+def query_test1():
     """
     This loads the data needed for tests
     """
