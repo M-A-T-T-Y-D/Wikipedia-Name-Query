@@ -34,7 +34,7 @@ logging.info('PyLint Starting | '
 
 results = Run([path], exit=False)
 
-final_score = results.linter.stats['global_note']
+final_score = results.linter.stats.global_note
 
 if final_score < threshold:
 
