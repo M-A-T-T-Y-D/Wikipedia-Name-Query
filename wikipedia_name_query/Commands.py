@@ -7,7 +7,7 @@ from wikipedia_name_query.person import Person
 
 class Commands():
     """
-    Class to hold custom terminal commands
+    Class to hold custom terminal commands.
     """
     def commands(self):
         """
