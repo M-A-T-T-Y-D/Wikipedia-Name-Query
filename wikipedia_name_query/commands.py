@@ -36,17 +36,7 @@ class Commands():
         load_parser = subparsers.add_parser('Load', help='Prints the data collected about the person')
         load_parser.add_argument('--Name', type=str, default=False, help='Selects person')
 
-        setfname_parser = subparsers.add_parser('set_name', help='sets the variable for testing')
-        setfname_parser.add_argument('--Name', type=str, default=False, help='sets the name to the input')
 
-        setage_parser = subparsers.add_parser('set_age', help='sets the age for testing')
-        setage_parser.add_argument('--age', type=str, default=False, help='sets the age to input')
-
-        setdob_parser = subparsers.add_parser('set_dob', help='sets the dob for testing')
-        setdob_parser.add_argument('--dob', type=str, default=False, help='sets the dob to input')
-
-        setdod_parser = subparsers.add_parser('set_dod', help='sets the dod for testing')
-        setdod_parser.add_argument('--dod', type=str, default=False, help='sets the dod to input')
 
         args = parser.parse_args()
         x = Person(args.Name)
