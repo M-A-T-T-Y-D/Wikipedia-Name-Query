@@ -27,13 +27,25 @@ class Panel(App):
         if query_name.dod == None:
             query_name.dod = "Not Dead"
         if button_id == "name":
-            self.query_one("#results", Label).update(f"Their full name is : {query_name.fullname}")
+            if query_name.fullname == None:
+                self.query_one("#results", Label).update("No data was retrived")
+            else:
+                self.query_one("#results", Label).update(f"Their full name is : {query_name.fullname}")
         elif button_id == "age":
-            self.query_one("#results", Label).update(f"They are {str(query_name.age)} years old")
+            if query_name.age == None:
+                self.query_one("#results", Label).update("No data was retrived")
+            else:
+               self.query_one("#results", Label).update(f"They are {str(query_name.age)} years old")
         elif button_id == "birth":
-            self.query_one("#results", Label).update(f"They were born on : {query_name.dob}")
+            if query_name.dob == None:
+                self.query_one("#results", Label).update("No data was retrived")
+            else:
+                self.query_one("#results", Label).update(f"They were born on : {query_name.dob}")
         elif button_id == "death":
-            self.query_one("#results", Label).update(f"They died on : {query_name.dod}")
+            if query_name.dod == None:
+                self.query_one("#results", Label).update("No data was retrived")
+            else:
+                self.query_one("#results", Label).update(f"They died on : {query_name.dod}")
         elif button_id == "dark":
             self.dark = not self.dark
 
