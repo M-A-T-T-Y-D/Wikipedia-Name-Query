@@ -1,10 +1,6 @@
 import pytest
 from wikipedia_name_query.query import Query
 
-
-
-
-#class q_test():
 @pytest.fixture
 def query_test1():
     """
