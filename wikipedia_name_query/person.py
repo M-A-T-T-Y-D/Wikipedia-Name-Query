@@ -37,11 +37,17 @@ class Person():
         '''
         x = Query()
         person_info = x.get_person_info(self.name)
-        self.fullname = person_info[0][0]
-        self.dob = person_info[0][1]
-        self.dod = person_info[0][2]
-        age = self.calculate_age(self.dob, self.dod)
-        self.age = age
+        if person_info == None:
+            self.fullname = None
+            self.dob = None
+            self.dod = None
+            self.age = None
+        else:
+            self.fullname = person_info[0][0]
+            self.dob = person_info[0][1]
+            self.dod = person_info[0][2]
+            age = self.calculate_age(self.dob, self.dod)
+            self.age = age
 
 
     def get_fname(self):
