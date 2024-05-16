@@ -15,6 +15,11 @@ class Query():
         '''
         This function querys dhpedia for the emtered person and retreives the data needed,
         this is then put into a format and ready to be output
+        
+        Parameters
+        -----------
+        person_name : str
+            The name of the person to query
         '''
         # Set up the SPARQL endpoint
         if person_name is None:
