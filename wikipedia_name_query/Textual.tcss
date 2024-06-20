@@ -1,0 +1,11 @@
+Screen {
+    background: $panel;
+}
+Input{
+    dock: top;
+    margin: 1 0;
+
+}
+Button {
+    width: 1fr;
+}

@@ -1,6 +1,10 @@
 """Entry point for wikipedia_name_query."""
+from wikipedia_name_query.Commands import Commands
 
-from wikipedia_name_query.cli import main  # pragma: no cover
+def main():
+    cli = Commands()
+    cli.commands()
 
-if __name__ == "__main__":  # pragma: no cover
+
+if __name__ == "__main__":
     main()

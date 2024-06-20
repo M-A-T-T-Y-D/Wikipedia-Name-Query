@@ -1,7 +1,7 @@
 """Python setup.py for wikipedia_name_query package"""
 import io
 import os
-from setuptools import find_packages, setup
+from setuptools import setup
 
 
 def read(*paths, **kwargs):
