@@ -2,10 +2,31 @@ Screen {
     background: $panel;
 }
 Input{
-    dock: top;
-    margin: 1 0;
+    width: 1fr;
+
+}
+Label{
+    dock: right;
 
 }
 Button {
     width: 1fr;
+}
+#container{
+    dock: left;
+    background: $boost;
+    min-height: 50%;
+    margin: 2;
+    max-width: 49%;
+    padding: 1;
+
+}
+#output{
+    background: $boost;
+    dock:right;
+    min-height: 50%;
+    margin: 2;
+    max-width: 49%;
+    padding: 1;
+
 }
