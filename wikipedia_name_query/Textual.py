@@ -30,13 +30,12 @@ class Panel(App):
         if query_name.dod == None:
             query_name.dod = "Not Dead"
         if button_id == "name":
-            if name_click == True:
-                if query_name.fullname == None:
-                    self.query_one("#results", AppendTextLabel).append("\nNo data was retrived")
-                    name_click = False
-                else:
-                    self.query_one("#results", AppendTextLabel).append(f"\nTheir full name is : {query_name.fullname}")
-                    name_click = False 
+            if query_name.fullname == None:
+                self.query_one("#results", AppendTextLabel).append("\nNo data was retrived")
+                name_click = False
+            else:
+                self.query_one("#results", AppendTextLabel).append(f"\nTheir full name is : {query_name.fullname}")
+                name_click = False 
         elif button_id == "age":
             age_click = True
             if query_name.age == None:
