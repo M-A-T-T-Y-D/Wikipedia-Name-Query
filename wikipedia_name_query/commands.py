@@ -33,7 +33,7 @@ class Commands():
         dod_parser = subparsers.add_parser('DOD', help='Retreives the date of death')
         dod_parser.add_argument('--Name', type=str, default=False, help='Selects person')
 
-        load_parser = subparsers.add_parser('Load', help='Prints the data collected about the person')
+        load_parser = subparsers.add_parser('Load',help='Prints the data collected about Person')
         load_parser.add_argument('--Name', type=str, default=False, help='Selects person')
 
 
