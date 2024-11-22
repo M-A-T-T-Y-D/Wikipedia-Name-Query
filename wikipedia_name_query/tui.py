@@ -14,12 +14,19 @@ Imported Modules:
     allowing the querys from the UI to be stored when the
     user terminates the program. It also loads old
     data from the database onto the display tabel.
+- Pathlib:
+    Allows the directory to start from the root of the project 
+    IE: Documents/Code/Wikipedia-name-query
 """
 from textual.app import App, on
 from textual.containers import Grid, Horizontal, Vertical
 from textual.screen import Screen
+from textual.events import Event
+from textual.message import Message
+from pathlib import Path
 from textual.widgets import (
     Button,
+    DirectoryTree,
     DataTable,
     Footer,
     Header,
@@ -27,6 +34,7 @@ from textual.widgets import (
     Label,
     Static,
 )
+
 from input_database import Database
 from wikipedia_name_query.person import Person
 
@@ -73,11 +81,13 @@ class QueryApp(App):
         delete_button = Button("Delete", variant="primary", id="delete")
         view_button = Button("View", variant="warning", id="view")
         clear_button = Button("Clear All", variant="error", id="clear")
+        file_button = Button("File", variant="primary", id="file")
 
         buttons_panel = Vertical(
             add_button,
             delete_button,
             view_button,
+            file_button,
             Static(classes="separator"),
             clear_button,
             classes="buttons-panel",
@@ -156,6 +166,13 @@ class QueryApp(App):
             QuestionDialog(f"Are you sure you want to view the data for {name}?"),
             check_answer
         )
+
+    @on(Button.Pressed, "#file")
+    def action_file(self):
+        """
+        allows the user to get the directory for a file
+        """
+        self.push_screen(FileSelectionScreen())
 
     def _load_names(self):
         """
@@ -279,6 +296,41 @@ class OutputData(Screen):
         else:
             self.dismiss(False)
 
+
+
+class FileSelectionScreen(Screen):
+    """A screen that allows users to select a file from their directory."""
+    CSS_PATH = "tui.tcss"
+    class FileSelected(Message):
+        """Custom event emitted when a file is selected."""
+        def __init__(self, sender: "FileSelectionScreen", file_path: Path) -> None:
+            self.file_path = file_path
+            super().__init__(sender)
+
+    def compose(self):
+        # Get the user's Documents directory as the starting path
+        documents_path = Path.home() / "Documents"
+
+        # Create the UI components
+        yield Header(show_clock=True)
+        yield Static("Select a file using the directory tree below:", classes="header")
+        yield DirectoryTree(
+            documents_path if documents_path.exists() else Path.home(), id="directory_tree"
+            )
+        yield Footer()
+        yield Button("Confirm Selection", id="confirm_button", classes="footer")
+
+    def on_directory_tree_file_selected(self, event: DirectoryTree.FileSelected) -> None:
+        """Handle the file selected event."""
+        self.selected_file = event.path  # Capture the selected file path
+        self.app.notify(f"Selected: {self.selected_file}")
+
+    def on_button_pressed(self, event: Button.Pressed) -> None:
+        """Handle the Confirm Selection button press."""
+        if hasattr(self, "selected_file") and Path(self.selected_file).is_file():
+            self.dismiss(True)
+        else:
+            self.app.notify("Please select a valid file before confirming.")
 
 if __name__ == "__main__":
     app = QueryApp(db=Database())
