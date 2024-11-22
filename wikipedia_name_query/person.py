@@ -1,3 +1,9 @@
+"""
+Imported Modules:
+-logging: for logging purposes to console or a file
+-datetime: to collect the current date when calculating the users age
+-Query: Imports the resulting data from the query
+"""
 import logging
 from datetime import datetime
 from wikipedia_name_query.query import Query

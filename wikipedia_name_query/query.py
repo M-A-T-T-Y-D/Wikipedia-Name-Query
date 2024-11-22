@@ -1,3 +1,8 @@
+"""
+Imported Modules:
+- logging: Allows for logging messages to the console or a file
+- SPARQLWrapper: A Python library for querying SPARQL endpoints
+"""
 import logging
 from SPARQLWrapper import SPARQLWrapper, JSON
 
@@ -49,7 +54,7 @@ class Query():
 
         sparql.setReturnFormat(JSON)
         results = sparql.query().convert()
-        
+
         # Log the input name and results
         #logger.debug("Querying for person: %s", person_name)
         #logger.debug("Query results: %s", results)
