@@ -1,5 +1,6 @@
 '''
-The module SPARQLWrapper is used to send and format the sql query 
+The module SPARQLWrapper is used to send and format the sql query
+
 '''
 
 from SPARQLWrapper import SPARQLWrapper, JSON

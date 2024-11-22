@@ -13,6 +13,9 @@ class Person():
     def __init__(self, name):
         '''
         Function: Used to state the variables you want to use in the class 
+        
+        Parameters
+        ----------
         self.name: the users input for the name
         self.FullName: the data collected from the query of the full name
         self.age: the calculation needed to work out the age of the person
