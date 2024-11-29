@@ -11,9 +11,9 @@ Imported Modules:
     the person object to store the data collected.
 - Database Class: 
     The Database class is used to connect to the database,
-    allowing the querys from the UI to be stored when the
+    allowing the queries from the UI to be stored when the
     user terminates the program. It also loads old
-    data from the database onto the display tabel.
+    data from the database onto the display table.
 - Pathlib:
     Allows the directory to start from the root of the project 
     IE: Documents/Code/Wikipedia-name-query
@@ -96,7 +96,7 @@ class QueryApp(App):
 
     def on_mount(self):
         """
-        Loads the screen + retreives data to load onto tabel
+        Loads the screen + retrieves data to load onto table
         """
         self.title = "Wiki Query"
         self.sub_title = "An App To Query Wikipedia"
@@ -105,7 +105,7 @@ class QueryApp(App):
     @on(Button.Pressed, "#add")
     def action_add(self):
         """
-        Adds a name to the tabel
+        Adds a name to the table
         """
         def check_name(name_data):
             if name_data:
@@ -118,7 +118,7 @@ class QueryApp(App):
     @on(Button.Pressed, "#clear")
     def action_clear_all(self):
         """
-        Clears all names from the tabel
+        Clears all names from the table
         """
         def check_answer(accepted):
             if accepted:
@@ -133,7 +133,7 @@ class QueryApp(App):
     @on(Button.Pressed, "#delete")
     def action_delete(self):
         """
-        Deletes names of the output tabel
+        Deletes names of the output table
         """
         name_list = self.query_one(DataTable)
         row_key, _ = name_list.coordinate_to_cell_key(name_list.cursor_coordinate)
@@ -145,7 +145,7 @@ class QueryApp(App):
 
         name = name_list.get_row(row_key)[0]
         self.push_screen(
-            QuestionDialog(f"Do you want to delete {name}'s?"),
+            QuestionDialog(f"Do you want to delete {name}' s?"),
             check_answer,
         )
 
@@ -201,7 +201,7 @@ class QueryApp(App):
 
 class InputDialog(Screen):
     """
-    This class creates the screen that verifys the users decision
+    This class creates the screen that verifies the user's decision
     """
     def compose(self):
         yield Grid(
@@ -220,7 +220,7 @@ class InputDialog(Screen):
 
     def on_button_pressed(self, event):
         """
-        Checks the users validates the button press
+        Checks the user's validates the button press
         """
         if event.button.id == "ok":
             name = self.query_one("#name", Input).value
@@ -233,7 +233,7 @@ class InputDialog(Screen):
 
 class QuestionDialog(Screen):
     """
-    This class creates the reusable screen for questions and verifying the users decision
+    This class creates the reusable screen for questions and verifying the user's decision
     """
     def __init__(self, message, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -269,7 +269,6 @@ class OutputData(Screen):
         self.person_query = Person(self.person_name)
         self.person_query.load()
 
-
     def compose(self):
         yield Vertical(
             Label("Output", id="output-title"),
@@ -289,14 +288,12 @@ class OutputData(Screen):
 
     def on_button_pressed(self, event):
         """
-        Validates the users input
+        Validates the user's input
         """
         if event.button.id == "yes":
             self.dismiss(True)
         else:
             self.dismiss(False)
-
-
 
 class FileSelectionScreen(Screen):
     """A screen that allows users to select a file from their directory."""
@@ -315,22 +312,33 @@ class FileSelectionScreen(Screen):
         yield Header(show_clock=True)
         yield Static("Select a file using the directory tree below:", classes="header")
         yield DirectoryTree(
-            documents_path if documents_path.exists() else Path.home(), id="directory_tree"
-            )
+            documents_path if documents_path.exists() else Path.home(),
+            id="directory_tree"
+        )
         yield Footer()
         yield Button("Confirm Selection", id="confirm_button", classes="footer")
 
     def on_directory_tree_file_selected(self, event: DirectoryTree.FileSelected) -> None:
         """Handle the file selected event."""
+        # Only allow .txt files to be selected
+        if not event.path.suffix == ".txt":
+            self.app.notify("Only .txt files can be selected")
+            self.selected_file = None
+            return
+            
         self.selected_file = event.path  # Capture the selected file path
         self.app.notify(f"Selected: {self.selected_file}")
 
     def on_button_pressed(self, event: Button.Pressed) -> None:
         """Handle the Confirm Selection button press."""
-        if hasattr(self, "selected_file") and Path(self.selected_file).is_file():
-            self.dismiss(True)
+        if hasattr(self, "selected_file") and self.selected_file is not None:
+            file_path = Path(self.selected_file)
+            if file_path.is_file() and file_path.suffix == ".txt":
+                self.dismiss(True)
+            else:
+                self.app.notify("Please select a valid .txt file before confirming.")
         else:
-            self.app.notify("Please select a valid file before confirming.")
+            self.app.notify("Please select a .txt file before confirming.")
 
 if __name__ == "__main__":
     app = QueryApp(db=Database())
