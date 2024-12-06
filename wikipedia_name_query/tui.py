@@ -1,20 +1,3 @@
-"""
-Imported Modules:
-- Textual widgets + screen + container + App: 
-    The Textual library is used for creating the graphical
-    user interfaces, The widgets are used to form buttons and
-    visuals on the User interface, The screen is used to display
-    a new window, The container is used to organize the widgets
-- Person class:
-    The Person class is used to call the query based of the input
-    from the user, The class is used to create a new instance of
-    the person object to store the data collected.
-- Database Class: 
-    The Database class is used to connect to the database,
-    allowing the querys from the UI to be stored when the
-    user terminates the program. It also loads old
-    data from the database onto the display tabel.
-"""
 from textual.app import App, on
 from textual.containers import Grid, Horizontal, Vertical
 from textual.screen import Screen
@@ -26,10 +9,32 @@ from textual.widgets import (
     Input,
     Label,
     Static,
+    DirectoryTree,
 )
 from input_database import Database
 from wikipedia_name_query.person import Person
 
+class FileViewScreen(Screen):
+    """
+    This class creates the screen to display the directory tree.
+    """
+    def __init__(self, path, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.path = path
+
+    def compose(self):
+        yield Grid(
+            Label("File Browser", id="title"),
+            DirectoryTree(path=self.path, id="directory-tree"),
+            id="file-view-screen",
+        )
+
+    def on_button_pressed(self, event):
+        """
+        Handles the button press to close the file view screen.
+        """
+        if event.button.id == "close":
+            self.dismiss()
 
 class QueryApp(App):
     """The main application class for the query app."""
@@ -40,6 +45,7 @@ class QueryApp(App):
         ("d", "delete", "Delete"),
         ("c", "clear_all", "Clear All"),
         ("q", "request_quit", "Quit"),
+        ("f", "view_files", "View Files"),
     ]
 
     def __init__(self, db: Database, **kwargs):
@@ -73,6 +79,7 @@ class QueryApp(App):
         delete_button = Button("Delete", variant="primary", id="delete")
         view_button = Button("View", variant="warning", id="view")
         clear_button = Button("Clear All", variant="error", id="clear")
+        file_button = Button("File", variant="error", id="file")
 
         buttons_panel = Vertical(
             add_button,
@@ -80,13 +87,14 @@ class QueryApp(App):
             view_button,
             Static(classes="separator"),
             clear_button,
+            file_button,
             classes="buttons-panel",
         )
         return buttons_panel
 
     def on_mount(self):
         """
-        Loads the screen + retreives data to load onto tabel
+        Loads the screen + retrieves data to load onto table
         """
         self.title = "Wiki Query"
         self.sub_title = "An App To Query Wikipedia"
@@ -95,7 +103,7 @@ class QueryApp(App):
     @on(Button.Pressed, "#add")
     def action_add(self):
         """
-        Adds a name to the tabel
+        Adds a name to the table
         """
         def check_name(name_data):
             if name_data:
@@ -108,7 +116,7 @@ class QueryApp(App):
     @on(Button.Pressed, "#clear")
     def action_clear_all(self):
         """
-        Clears all names from the tabel
+        Clears all names from the table
         """
         def check_answer(accepted):
             if accepted:
@@ -123,7 +131,7 @@ class QueryApp(App):
     @on(Button.Pressed, "#delete")
     def action_delete(self):
         """
-        Deletes names of the output tabel
+        Deletes names from the output table
         """
         name_list = self.query_one(DataTable)
         row_key, _ = name_list.coordinate_to_cell_key(name_list.cursor_coordinate)
@@ -157,6 +165,13 @@ class QueryApp(App):
             check_answer
         )
 
+@on(Button.Pressed, "#file")
+def action_view_files(self):
+    """
+    Opens the file view screen
+    """
+    self.push_screen(FileViewScreen(path="wikipedia_name_query"))
+
     def _load_names(self):
         """
         Loads the names
@@ -182,9 +197,16 @@ class QueryApp(App):
 
         self.push_screen(QuestionDialog("Do you want to quit?"), check_answer)
 
+    @on(Button.Pressed, "#file")
+    def action_view_files(self):
+        """
+        Opens the file view screen
+        """
+        self.push_screen(FileViewScreen())
+
 class InputDialog(Screen):
     """
-    This class creates the screen that verifys the users decision
+    This class creates the screen that verifies the user's decision
     """
     def compose(self):
         yield Grid(
@@ -203,7 +225,7 @@ class InputDialog(Screen):
 
     def on_button_pressed(self, event):
         """
-        Checks the users validates the button press
+        Checks the user's validation of the button press
         """
         if event.button.id == "ok":
             name = self.query_one("#name", Input).value
@@ -216,7 +238,7 @@ class InputDialog(Screen):
 
 class QuestionDialog(Screen):
     """
-    This class creates the reusable screen for questions and verifying the users decision
+    This class creates the reusable screen for questions and verifying the user's decision
     """
     def __init__(self, message, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -252,7 +274,6 @@ class OutputData(Screen):
         self.person_query = Person(self.person_name)
         self.person_query.load()
 
-
     def compose(self):
         yield Vertical(
             Label("Output", id="output-title"),
@@ -272,13 +293,12 @@ class OutputData(Screen):
 
     def on_button_pressed(self, event):
         """
-        Validates the users input
+        Validates the user's input
         """
         if event.button.id == "yes":
             self.dismiss(True)
         else:
             self.dismiss(False)
-
 
 if __name__ == "__main__":
     app = QueryApp(db=Database())
