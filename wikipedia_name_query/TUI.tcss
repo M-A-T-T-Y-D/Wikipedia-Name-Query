@@ -6,7 +6,6 @@ QuestionDialog {
     grid-size: 2;
     grid-gutter: 1 2;
     grid-rows: 1fr 3;
-    padding: 0 1;
     width: 60;
     height: 11;
     border: solid red;
@@ -25,19 +24,14 @@ Button {
     outline: none;  /* Remove the default outline */
 }
 
-
-
-
-
+/* Styling for the output list */
 .Output-List {
     width: 3fr;
-    padding: 0 1;
     border: solid green;
 }
 
 .buttons-panel {
     align: center top;
-    padding: 0 1;
     width: auto;
     border: solid red;
 }
@@ -45,6 +39,7 @@ Button {
 .separator {
     height: 1fr;
 }
+
 InputDialog {
     align: center middle;
 }
@@ -55,13 +50,12 @@ InputDialog {
     width: 1fr;
     content-align: center middle;
     color: green;
-    text-style: bold;
 }
 
+/* Styling for the input dialog */
 #input-dialog {
     grid-size: 3 5;
     grid-gutter: 1 1;
-    padding: 0 1;
     width: 50;
     height: 20;
     border: solid green;
@@ -91,15 +85,14 @@ OutputData {
     text-style: bold;
 }
 
-
+/* Styling for the output screen */
 #output-screen {
     grid-size: 3 5;
     grid-gutter: 1 1;
-    padding: 0 1;
     width: 50;
     height: 20;
     border: solid green;
-    background: $surface;
+    background: $surface;   
 }
 
 .output-label {
@@ -114,4 +107,65 @@ OutputData {
     column-span: 1;  /* Span across one column for the output text */
     color: black;  /* Standard text color */
     text-style: italic;  /* Italic style for output text */
+}
+
+/* FileViewScreen styling */
+FileViewScreen {
+    align: center middle;
+}
+
+#file-view-screen {
+    grid-size: 3;
+    grid-gutter: 1 1;
+    width: 60;
+    height: 20;
+    border: solid blue;
+    background: #f0f0f0; /* Light gray for the screen background */
+}
+
+/* Title for the file view screen */
+#title {
+    column-span: 3;
+    height: 1fr;
+    width: 1fr;
+    content-align: center middle;
+    color: blue;
+    margin-bottom: 1;
+}
+
+/* DirectoryTree styling for the file view screen */
+#directory-tree {
+    grid-size: 3 5;
+    grid-gutter: 1 1;
+    width: 50;
+    height: auto; /* Automatically adjusts height */
+    border: solid gray;
+    background: #ffffff; /* White background for the tree */
+    color: black; /* Black text for the file tree */
+    scrollbar-color: blue lightgray; /* Custom scrollbar colors */
+}
+
+
+/* Button panel for the file view screen */
+.buttons-panel {
+    align: center top;
+    width: auto;
+    background: #f8f8f8; /* Light gray for the button panel */
+}
+
+Button {
+    width: 100%;
+    color: white;
+    background: blue;
+    border: none;
+}
+
+Button:hover {
+    background: darkblue;
+    color: lightgray;
+}
+
+.separator {
+    height: 1fr;
+    background: gray;
 }
