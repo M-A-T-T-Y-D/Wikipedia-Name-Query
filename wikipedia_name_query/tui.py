@@ -112,10 +112,15 @@ class QueryApp(App):
     @on(Button.Pressed, "#clear")
     def action_clear_all(self):
         """Clears all names from the table."""
+        name_list = self.query_one("#output-table")
+        if name_list.row_count == 0:
+            self.notify("No names to clear!")
+            return
+
         def check_answer(accepted):
             if accepted:
                 self.db.clear_all_names()
-                self.query_one("#output-table").clear()
+                name_list.clear()
                 self.notify("All names cleared successfully!")
 
         self.push_screen(QuestionDialog("Are you sure you want to remove all names?"), check_answer)
@@ -124,29 +129,45 @@ class QueryApp(App):
     def action_delete(self):
         """Deletes names from the output table."""
         name_list = self.query_one("#output-table")
-        row_key, _ = name_list.coordinate_to_cell_key(name_list.cursor_coordinate)
+        
+        if name_list.row_count == 0:
+            self.notify("No names to delete!")
+            return
+            
+        try:
+            row_key, _ = name_list.coordinate_to_cell_key(name_list.cursor_coordinate)
+            name = name_list.get_row(row_key)[0]
 
-        def check_answer(accepted):
-            if accepted and row_key:
-                self.db.remove_name(id=row_key.value)
-                name_list.remove_row(row_key)
-                self.notify(f"Deleted name with ID {row_key.value}!")
+            def check_answer(accepted):
+                if accepted and row_key:
+                    self.db.remove_name(id=row_key.value)
+                    name_list.remove_row(row_key)
+                    self.notify(f"Deleted name with ID {row_key.value}!")
 
-        name = name_list.get_row(row_key)[0]
-        self.push_screen(QuestionDialog(f"Do you want to delete {name}'s?"), check_answer)
+            self.push_screen(QuestionDialog(f"Do you want to delete {name}'s?"), check_answer)
+        except (IndexError, AttributeError):
+            self.notify("Please select a name to delete!")
 
     @on(Button.Pressed, "#view")
     def action_view(self):
         """Views the collected data on the selected name."""
         name_list = self.query_one("#output-table")
-        row_key, _ = name_list.coordinate_to_cell_key(name_list.cursor_coordinate)
-        name = name_list.get_row(row_key)[0]
+        
+        if name_list.row_count == 0:
+            self.notify("No names to view!")
+            return
+            
+        try:
+            row_key, _ = name_list.coordinate_to_cell_key(name_list.cursor_coordinate)
+            name = name_list.get_row(row_key)[0]
 
-        def check_answer(accepted):
-            if accepted:
-                self.push_screen(OutputData(name=name))
+            def check_answer(accepted):
+                if accepted:
+                    self.push_screen(OutputData(name=name))
 
-        self.push_screen(QuestionDialog(f"Are you sure you want to view the data for {name}?"), check_answer)
+            self.push_screen(QuestionDialog(f"Are you sure you want to view the data for {name}?"), check_answer)
+        except (IndexError, AttributeError):
+            self.notify("Please select a name to view!")
 
     @on(Button.Pressed, "#file")
     def action_view_files(self):
