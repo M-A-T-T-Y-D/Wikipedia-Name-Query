@@ -34,6 +34,10 @@ The TUI provides an interactive interface with the following features:
 ```bash
 python -m wikipedia_name_query
 ```
+2. Or:
+```bash
+Textual run tui.py
+```
 
 2. Interface Features:
 - Add names using the "Add" button or 'a' key
