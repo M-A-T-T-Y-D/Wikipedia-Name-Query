@@ -37,6 +37,7 @@ Dependencies:
 """
 import sys
 from pathlib import Path
+from typing import Callable
 from textual.app import App, ComposeResult, on
 from textual.containers import Grid, Horizontal, Vertical
 from textual.reactive import reactive
@@ -429,7 +430,7 @@ class FileViewScreen(Screen):
     selected_file: reactive[str | None] = reactive(None)
     process_file_contents: callable = None  
 
-    def __init__(self, process_file_contents: callable[[str], bool]):
+    def __init__(self, process_file_contents: Callable[[str], bool]):
         super().__init__()
         self.process_file_contents = process_file_contents
         self.processed = False
