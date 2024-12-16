@@ -1,3 +1,7 @@
+Screen {
+    background: $surface;
+}
+
 QuestionDialog {
     align: center middle;
 }
@@ -25,10 +29,6 @@ Button {
     outline: none;  /* Remove the default outline */
 }
 
-
-
-
-
 .Output-List {
     width: 3fr;
     padding: 0 1;
@@ -45,6 +45,7 @@ Button {
 .separator {
     height: 1fr;
 }
+
 InputDialog {
     align: center middle;
 }
@@ -54,7 +55,7 @@ InputDialog {
     height: 1fr;
     width: 1fr;
     content-align: center middle;
-    color: green;
+    color: $success;
     text-style: bold;
 }
 
@@ -64,7 +65,7 @@ InputDialog {
     padding: 0 1;
     width: 50;
     height: 20;
-    border: solid green;
+    border: solid $success;
     background: $surface;
 }
 
@@ -87,10 +88,9 @@ OutputData {
     height: 1fr;
     width: 1fr;
     content-align: center middle;
-    color: green;
+    color: $success;
     text-style: bold;
 }
-
 
 #output-screen {
     grid-size: 3 5;
@@ -98,20 +98,42 @@ OutputData {
     padding: 0 1;
     width: 50;
     height: 20;
-    border: solid green;
+    border: solid $success;
     background: $surface;
 }
 
 .output-label {
     height: auto;  /* Automatically adjust height */
     width: 1fr;  /* Full width for labels */
-    color: white;  /* Subtle color for labels */
+    color: $text;  /* Use theme text color */
     align-horizontal: center;  /* Align text to the right */
 }
 
 .output-text {
     height: auto;  /* Automatically adjust height */
     column-span: 1;  /* Span across one column for the output text */
-    color: black;  /* Standard text color */
+    color: $text;  /* Use theme text color */
     text-style: italic;  /* Italic style for output text */
+}
+
+/* Dark mode specific styles */
+.dark {
+    background: $surface-darken-2;
+}
+
+.dark #input-dialog,
+.dark #output-screen,
+.dark #question-dialog {
+    background: $surface-darken-1;
+}
+
+.dark .output-label,
+.dark .output-text,
+.dark .label {
+    color: $text;
+}
+
+.dark DataTable {
+    background: $surface-darken-1;
+    color: $text;
 }
