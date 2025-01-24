@@ -1,52 +1,62 @@
-"""
-Imported Modules:
--logging: for logging purposes to console or a file
--datetime: to collect the current date when calculating the users age
--Query: Imports the resulting data from the query
-"""
 import logging
 from datetime import datetime
 from wikipedia_name_query.query import Query
 
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
-# Configure logging
 file_handler = logging.FileHandler('app.log')
 formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 file_handler.setFormatter(formatter)
 file_handler.flush()
 logger.addHandler(file_handler)
 
-class Person():
-    '''
-    This class was made so you can create multiple instances of people that you want data for
-    '''
-    def __init__(self, name):
+
+class Person:
+    """
+    A class to represent an individual and retrieve, manage, and manipulate their data.
+
+    Attributes
+    ----------
+    name : str
+        The identifier for the person.
+    fullname : str or None
+        The full name of the person.
+    age : int or None
+        The age of the person.
+    dob : str or None
+        The date of birth of the person (format: YYYY-MM-DD).
+    dod : str or None
+        The date of death of the person (format: YYYY-MM-DD).
+    """
+
+    def __init__(self, name: str) -> None:
         '''
-        Function: Used to state the variables you want to use in the class 
-        
+        Initializes a Person instance.
+
         Parameters
         ----------
-        self.name: the users input for the name
-        self.fullname: the data collected from the query of the full name
-        self.age: the calculation needed to work out the age of the person
-        self.dob: the data collected from the query of the date of birth
-        self.dod: the data collected from the query of the Date Of Death
+        name : str
+            The name or identifier for the person.
         '''
-
         self.name = name
         self.fullname = None
         self.age = None
         self.dob = None
         self.dod = None
 
-    def load(self):
+    def load(self) -> dict | None:
         '''
-        This function assigns the retrieved data to the variables
+        Loads the person's data using the `Query` interface and assigns it to instance attributes.
+        
+        Returns
+        -------
+        person_info : dict or None
+            The data retrieved for the person. None if no data is found.
         '''
         logging.debug(f"Loading data for {self.name}")
         x = Query()
         person_info = x.get_person_info(self.name)
+
         if person_info is None:
             self.fullname = None
             self.dob = None
@@ -59,62 +69,103 @@ class Person():
             self.dod = person_info[0][2]
             self.age = self.calculate_age(self.dob, self.dod)
             logging.debug(f"Loaded data for {self.fullname}: DOB={self.dob}, DOD={self.dod}, Age={self.age}")
+        
         return person_info
 
-    def get_fname(self):
+    def get_fname(self) -> str | None:
         '''
-        This function outputs the name
+        Returns the person's full name.
+
+        Returns
+        -------
+        fullname : str or None
+            The full name of the person, or None if not available.
         '''
         return self.fullname
 
-    def get_dob(self):
+    def get_dob(self) -> str | None:
         '''
-        This function outputs the date of birth
+        Returns the person's date of birth.
+
+        Returns
+        -------
+        dob : str or None
+            The date of birth in the format YYYY-MM-DD, or None if not available.
         '''
         return self.dob
 
-    def get_dod(self):
+    def get_dod(self) -> str | None:
         '''
-        This function outputs the date of death
+        Returns the person's date of death.
+
+        Returns
+        -------
+        dod : str or None
+            The date of death in the format YYYY-MM-DD, or None if not available.
         '''
         return self.dod
 
-    def get_age(self):
+    def get_age(self) -> int | None:
         '''
-        This function outputs the age
+        Returns the person's age.
+
+        Returns
+        -------
+        age : int or None
+            The person's age, or None if not available.
         '''
         return self.age
 
-    def set_fullname(self):
+    def set_fullname(self) -> str:
         '''
-        This function sets the name to an input
+        Prompts the user to set a new full name for the person.
+
+        Returns
+        -------
+        fullname : str
+            The new full name entered by the user.
         '''
         name = input("What would you like to set the name as? ")
         self.fullname = name
         logging.debug(f"Set fullname to {self.fullname}")
         return self.fullname
 
-    def set_age(self):
+    def set_age(self) -> int:
         '''
-        This function allows the user to set the age
+        Prompts the user to set a new age for the person.
+
+        Returns
+        -------
+        age : int
+            The new age entered by the user.
         '''
         age = input("What would you like to set the age as? ")
-        self.age = age
+        self.age = int(age)
         logging.debug(f"Set age to {self.age}")
         return self.age
 
-    def set_dob(self):
+    def set_dob(self) -> str:
         '''
-        This function allows the user to set the date of birth
+        Prompts the user to set a new date of birth for the person.
+
+        Returns
+        -------
+        dob : str
+            The new date of birth entered by the user (format: YYYY-MM-DD).
         '''
         dob = input("What would you like to set the DOB as? ")
         self.dob = dob
         logging.debug(f"Set DOB to {self.dob}")
         return self.dob
 
-    def set_dod(self):
+    def set_dod(self) -> str:
         '''
-        This function allows the user to set the date of death
+        Prompts the user to set a new date of death for the person.
+
+        Returns
+        -------
+        dod : str
+            The new date of death entered by the user (format: YYYY-MM-DD).
         '''
         dod = input("What would you like to set the DOD as? ")
         self.dod = dod
@@ -122,17 +173,35 @@ class Person():
         return self.dod
 
     @staticmethod
-    def calculate_age(birth_date, death_date=None):
+    def calculate_age(birth_date: str, death_date: str | None = None) -> int:
         '''
-        This function uses datetime to get today's date then calculates 
-        how many years have passed since a date to calculate age
+        Calculates the person's age based on their birth date and optionally their death date.
+        
+        Parameters
+        ----------
+        birth_date : str
+            The person's date of birth in the format YYYY-MM-DD.
+        death_date : str, optional
+            The person's date of death in the format YYYY-MM-DD. Defaults to None.
+        
+        Returns
+        -------
+        age : int
+            The calculated age in years.
+        
+        Raises
+        ------
+        ValueError
+            If the date format is invalid or the birth date is in the future.
         '''
         logging.debug(f"Calculating age for birth_date={birth_date}, death_date={death_date}")
         birth_date = datetime.strptime(birth_date, "%Y-%m-%d")
+        
         if death_date:
             death_date = datetime.strptime(death_date, "%Y-%m-%d")
             age = (death_date - birth_date).days // 365
         else:
             age = (datetime.now() - birth_date).days // 365
+        
         logging.debug(f"Calculated age: {age}")
         return age

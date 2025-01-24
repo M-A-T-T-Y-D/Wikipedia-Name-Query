@@ -1,85 +1,80 @@
-'''
-argparse is used to create the terminal commands
-'''
 import argparse
 from wikipedia_name_query.person import Person
 
 
-class Commands():
+class Commands:
     """
-    Class to hold custom terminal commands
+    A class to define custom terminal commands for retrieving or modifying 
+    information about a person.
     """
-    def commands(self):
+
+    def commands(self) -> None:
         """
-        This function adds the terminal commands and gives them information
-        that can be requested using -h
+        Configures terminal commands and provides information about them
+        when using the `-h` or `--help` flags.
+
+        Available Commands
+        ------------------
+        name : Retrieves the name of the person.
+        age : Retrieves the age of the person.
+        DOB : Retrieves the date of birth of the person.
+        DOD : Retrieves the date of death of the person.
+        Load : Loads and prints all data collected about the person.
+        setfname : Sets a new full name for the person.
+        setage : Sets a new age for the person.
+        setdob : Sets a new date of birth for the person.
+        setdod : Sets a new date of death for the person.
         """
-        parser = argparse.ArgumentParser(description='Find data about someone')
-        #creates the list of commands and their description
-        subparsers = parser.add_subparsers(help='commands', dest='command')
+        parser = argparse.ArgumentParser(description="Find data about someone")
+        subparsers = parser.add_subparsers(help="commands", dest="command")
 
+        name_parser = subparsers.add_parser("name", help="Retrieves the person's name")
+        name_parser.add_argument("--Name", type=str, required=True, help="Selects person")
 
-        name_parser = subparsers.add_parser('name', help='Selects the person')#shortens the command
-        name_parser.add_argument('--Name', type=str, default=False, help='Selects person' )
+        age_parser = subparsers.add_parser("age", help="Retrieves the person's age")
+        age_parser.add_argument("--Name", type=str, required=True, help="Selects person")
 
+        dob_parser = subparsers.add_parser("DOB", help="Retrieves the person's date of birth")
+        dob_parser.add_argument("--Name", type=str, required=True, help="Selects person")
 
-        age_parser = subparsers.add_parser('age', help='Retrieves the age')
-        age_parser.add_argument('--Name', type=str, default=False, help='Selects person')
-        #this command starts the code to find the persons age
+        dod_parser = subparsers.add_parser("DOD", help="Retrieves the person's date of death")
+        dod_parser.add_argument("--Name", type=str, required=True, help="Selects person")
 
-        dob_parser = subparsers.add_parser('DOB', help='retrieves the date of birth')
-        dob_parser.add_argument('--Name', type=str, default=False, help='Selects person ')
-
-        dod_parser = subparsers.add_parser('DOD', help='Retreives the date of death')
-        dod_parser.add_argument('--Name', type=str, default=False, help='Selects person')
-
-        load_parser = subparsers.add_parser('Load',help='Prints the data collected about Person')
-        load_parser.add_argument('--Name', type=str, default=False, help='Selects person')
-
-
+        load_parser = subparsers.add_parser("Load", help="Prints all data collected about the person")
+        load_parser.add_argument("--Name", type=str, required=True, help="Selects person")
 
         args = parser.parse_args()
-        x = Person(args.Name)
-        x.load()
-        if args.command == 'name':
-            name = x.get_fname()
-            print(name)
+        person = Person(args.Name)
+        person.load()
 
-        elif args.command == 'age':
-            age = x.get_age()
-            print(age)
+        if args.command == "name":
+            print(person.get_fname())
 
+        elif args.command == "age":
+            print(person.get_age())
 
-        elif args.command == 'dob':
-            dob = x.get_dob()
-            print(dob)
+        elif args.command == "DOB":
+            print(person.get_dob())
 
-        elif args.command == 'dod':
-            dod = x.get_dod()
-            print(dod)
+        elif args.command == "DOD":
+            print(person.get_dod())
 
+        elif args.command == "setfname":
+            fullname = person.set_fullname()
+            print("You set the name to:", fullname)
 
+        elif args.command == "setage":
+            age = person.set_age()
+            print("You set the age to:", age)
 
+        elif args.command == "setdob":
+            dob = person.set_dob()
+            print("You set the date of birth to:", dob)
 
-
-        elif args.command == 'setfname':
-            fullname = Person(args.Name).set_fullname()
-            print("you set the name to", fullname)
-
-        elif args.command == 'setage':
-            age = Person(args.age).set_age()
-            print("you set age to", age)
-
-        elif args.command == 'setdob':
-            dob = Person(args.dob).set_dob()
-            print("you set dob to", dob)
-
-        elif args.command == 'setdod':
-            dod = Person(args.dod).set_dod()
-            print("you set dod to", dod)
+        elif args.command == "setdod":
+            dod = person.set_dod()
+            print("You set the date of death to:", dod)
 
         else:
-            print('No such command please try again')
+            print("No such command. Please try again.")
 
-    parser = argparse.ArgumentParser(description='Find data about someone')
-    subparsers = parser.add_subparsers(help='commands', dest='command')

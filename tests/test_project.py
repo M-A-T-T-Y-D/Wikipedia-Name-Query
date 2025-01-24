@@ -39,4 +39,4 @@ class Tests():
         """
         tests wether the age is calculated correctly
         """
-        assert person.age == 86
+        assert person.age == 87

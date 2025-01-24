@@ -1,1 +1,4 @@
 SPARQLWrapper==2.0.0
+textual
+pytest
+pytest-asyncio

@@ -35,38 +35,42 @@ Dependencies:
     - pathlib: For file path handling
     - sys: For platform-specific operations
 """
-import sys
-from pathlib import Path
 from textual.app import App, ComposeResult, on
-from textual.containers import Grid, Horizontal, Vertical
-from textual.reactive import reactive
-from textual.screen import Screen
+from textual.containers import Horizontal, Vertical
 from textual.widgets import (
     Button,
     DataTable,
     Footer,
     Header,
-    Input,
-    Label,
     Static,
-    DirectoryTree,
 )
 from wikipedia_name_query.input_database import Database
 from wikipedia_name_query.person import Person
+from wikipedia_name_query.TUI.input_dialog import InputDialog
+from wikipedia_name_query.TUI.question_dialog import QuestionDialog
+from wikipedia_name_query.TUI.output_data import OutputData
+from wikipedia_name_query.TUI.file_view_screen import FileViewScreen
 
 class QueryApp(App):
-    """The main application class for the query app.
-    
+    """
+    The main application class for the query app.
+
     This class provides a Text User Interface (TUI) for querying and managing Wikipedia data.
     It includes functionality for adding, deleting, and viewing names, as well as theme toggling
     and file operations.
-    
-    Attributes:
-        CSS_PATH (str): Path to the CSS styling file
-        BINDINGS (list): Keyboard shortcuts for various actions
-        db (Database): Database instance for storing and retrieving data
-        theme (str): Current theme setting ("textual-dark" or "textual-light")
+
+    Attributes
+    ----------
+    CSS_PATH : str
+        Path to the CSS styling file
+    BINDINGS : list
+        Keyboard shortcuts for various actions
+    db : Database
+        Database instance for storing and retrieving data
+    theme : str
+        Current theme setting ("textual-dark" or "textual-light")
     """
+
     CSS_PATH = "tui.tcss"
     BINDINGS = [
         ("m", "toggle_dark", "Toggle dark mode"),
@@ -77,22 +81,30 @@ class QueryApp(App):
     ]
 
     def __init__(self, db: Database, **kwargs):
-        """Initialize the QueryApp.
-        
-        Args:
-            db (Database): Database instance for storing and retrieving data
-            **kwargs: Additional keyword arguments passed to the parent App class
+        """
+        Initialize the QueryApp.
+
+        Parameters
+        ----------
+        db : Database
+            Database instance for storing and retrieving data
+        **kwargs
+            Additional keyword arguments passed to the parent App class
         """
         super().__init__(**kwargs)
         self.db = db
-        self.theme = "textual-dark"  # Initialize with dark theme
+        self.theme = "textual-dark"  
+
 
     def compose(self) -> ComposeResult:
-        """Compose the screen layout with all UI elements.
-        
-        Returns:
-            ComposeResult: The composed UI elements including header, footer,
-                         output table, and buttons panel.
+        """
+        Compose the screen layout with all UI elements.
+
+        Returns
+        -------
+        ComposeResult
+            The composed UI elements including header, footer,
+            output table, and buttons panel.
         """
         yield Header()
         yield Footer()
@@ -102,14 +114,18 @@ class QueryApp(App):
 
         yield Horizontal(self.output_table, buttons_panel)
 
+
     def create_output_table(self) -> DataTable:
-        """Create and configure the output table for displaying data.
-        
+        """
+        Create and configure the output table for displaying data.
+
         Creates a DataTable widget with specific styling and configuration
         for displaying the list of names and their IDs.
-        
-        Returns:
-            DataTable: Configured DataTable widget with ID and Name columns
+
+        Returns
+        -------
+        DataTable
+            Configured DataTable widget with ID and Name columns
         """
         table = DataTable(classes="Output-List", id="output-table")  # Give an id to the DataTable
         table.add_columns("ID", "Name")
@@ -117,14 +133,18 @@ class QueryApp(App):
         table.zebra_stripes = True
         return table
 
+
     def create_buttons_panel(self) -> Vertical:
-        """Create and configure the buttons panel.
-        
+        """
+        Create and configure the buttons panel.
+
         Creates a vertical panel containing buttons for various operations
         like Add, Delete, View, Clear All, and File operations.
-        
-        Returns:
-            Vertical: A vertical container with configured buttons
+
+        Returns
+        -------
+        Vertical
+            A vertical container with configured buttons
         """
         add_button = Button("Add", variant="success", id="add")
         delete_button = Button("Delete", variant="primary", id="delete")
@@ -143,9 +163,11 @@ class QueryApp(App):
         )
         return buttons_panel
 
+
     def on_mount(self) -> None:
-        """Initialize the app when mounted.
-        
+        """
+        Initialize the app when mounted.
+
         Sets up the initial state of the application including the title,
         subtitle, and loads existing names from the database into the table.
         """
@@ -153,9 +175,11 @@ class QueryApp(App):
         self.sub_title = "An App To Query Wikipedia"
         self._load_names()
 
+
     def _load_names(self) -> None:
-        """Load names from the database into the DataTable.
-        
+        """
+        Load names from the database into the DataTable.
+
         Retrieves all names from the database and populates the DataTable,
         including error handling for invalid data formats.
         """
@@ -170,19 +194,23 @@ class QueryApp(App):
             else:
                 self.notify(f"Invalid data format: {name_data}")
 
+
     def action_toggle_dark(self) -> None:
-        """Toggle between light and dark themes.
-        
+        """
+        Toggle between light and dark themes.
+
         Switches the application theme between 'textual-light' and 'textual-dark',
         and displays a notification of the current theme state.
         """
         self.theme = "textual-light" if self.theme == "textual-dark" else "textual-dark"
         self.notify(f"Theme: {self.theme}")
 
+
     @on(Button.Pressed, "#add")
     def action_add(self) -> None:
-        """Handle the add action.
-        
+        """
+        Handle the add action.
+
         Opens an InputDialog for adding a new name to the database and table.
         On successful addition, updates both the database and the UI table.
         """
@@ -190,15 +218,17 @@ class QueryApp(App):
             if name_data:
                 self.db.add_name(name_data)
                 id, *name = self.db.get_last_name()
-                self.query_one("#output-table").add_row(*name, key=id) 
+                self.query_one("#output-table").add_row(*name, key=id)
                 self.notify("Name added successfully!")
 
         self.push_screen(InputDialog(), check_name)
 
+
     @on(Button.Pressed, "#clear")
     def action_clear_all(self) -> None:
-        """Handle the clear all action.
-        
+        """
+        Handle the clear all action.
+
         Prompts for confirmation before clearing all names from both
         the database and the UI table. Shows appropriate notifications
         for empty tables and successful clearing operations.
@@ -216,20 +246,22 @@ class QueryApp(App):
 
         self.push_screen(QuestionDialog("Are you sure you want to remove all names?"), check_answer)
 
+
     @on(Button.Pressed, "#delete")
     def action_delete(self) -> None:
-        """Handle the delete action.
-        
+        """
+        Handle the delete action.
+
         Deletes the currently selected name from both the database and UI table
         after confirmation. Handles cases where no name is selected or the table
         is empty.
         """
         name_list = self.query_one("#output-table")
-        
+
         if name_list.row_count == 0:
             self.notify("No names to delete!")
             return
-            
+
         try:
             row_key, _ = name_list.coordinate_to_cell_key(name_list.cursor_coordinate)
             name = name_list.get_row(row_key)[0]
@@ -244,19 +276,21 @@ class QueryApp(App):
         except (IndexError, AttributeError):
             self.notify("Please select a name to delete!")
 
+
     @on(Button.Pressed, "#view")
     def action_view(self) -> None:
-        """Handle the view action.
-        
+        """
+        Handle the view action.
+
         Opens a detailed view of the selected name's Wikipedia data.
         Handles cases where no name is selected or the table is empty.
         """
         name_list = self.query_one("#output-table")
-        
+
         if name_list.row_count == 0:
             self.notify("No names to view!")
             return
-            
+
         try:
             row_key, _ = name_list.coordinate_to_cell_key(name_list.cursor_coordinate)
             name = name_list.get_row(row_key)[0]
@@ -269,10 +303,12 @@ class QueryApp(App):
         except (IndexError, AttributeError):
             self.notify("Please select a name to view!")
 
+
     @on(Button.Pressed, "#file")
     def action_view_files(self) -> None:
-        """Handle the file view action.
-        
+        """
+        Handle the file view action.
+
         Opens the file selection screen for importing names from a text file.
         Processes the selected file and updates both the database and UI table
         with the imported names.
@@ -293,14 +329,16 @@ class QueryApp(App):
         def after_screen_dismissed(processed: bool) -> None:
             if processed:
                 self.query_one("#output-table").clear()
-                self._load_names()  
+                self._load_names()
                 self.notify("Names from file have been added to the database successfully!")
 
         self.push_screen(FileViewScreen(process_file_contents), after_screen_dismissed)
 
+
     def action_request_quit(self) -> None:
-        """Handle the quit action.
-        
+        """
+        Handle the quit action.
+
         Prompts for confirmation before exiting the application.
         """
         def check_answer(accepted: bool) -> None:
@@ -309,190 +347,3 @@ class QueryApp(App):
 
         self.push_screen(QuestionDialog("Do you want to quit?"), check_answer)
 
-
-class InputDialog(Screen):
-    """Dialog for adding a name."""
-    def compose(self) -> ComposeResult:
-        """Create the input dialog layout.
-
-        Returns:
-            ComposeResult: The composed UI elements for the input dialog.
-        """
-        yield Grid(
-            Label("Add name", id="title"),
-            Label("Name:", classes="label"),
-            Input(
-                placeholder="Name",
-                classes="input",
-                id="name",
-            ),
-            Static(),
-            Button("Cancel", variant="warning", id="cancel"),
-            Button("Ok", variant="success", id="ok"),
-            id="input-dialog",
-        )
-
-    def on_button_pressed(self, event: Button.Pressed) -> None:
-        """Handle button presses in the InputDialog.
-        
-        Args:
-            event (Button.Pressed): The button press event.
-        """
-        if event.button.id == "ok":
-            name = self.query_one("#name").value
-            if name and isinstance(name, str):
-                self.dismiss(name)
-            else:
-                self.dismiss()
-        else:
-            self.dismiss()
-
-
-
-class QuestionDialog(Screen):
-    """Dialog for asking confirmation questions."""
-    def __init__(self, message: str, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.message = message
-
-    def compose(self) -> ComposeResult:
-        """Create the question dialog layout.
-
-        Returns:
-            ComposeResult: The composed UI elements for the question dialog.
-        """
-        no_button = Button("No", variant="primary", id="no")
-        no_button.focus()
-
-        yield Grid(
-            Label(self.message, id="question"),
-            Button("Yes", variant="error", id="yes"),
-            no_button,
-            id="question-dialog",
-        )
-
-    def on_button_pressed(self, event: Button.Pressed) -> None:
-        """Handle button presses in the QuestionDialog.
-        
-        Args:
-            event (Button.Pressed): The button press event.
-        """
-        if event.button.id == "yes":
-            self.dismiss(True)
-        else:
-            self.dismiss(False)
-
-
-class OutputData(Screen):
-    """Screen to display detailed data for a selected name."""
-    def __init__(self, name: str, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self.person_name = name
-        self.person_query = Person(self.person_name)
-        self.person_query.load()
-
-    def compose(self) -> ComposeResult:
-        """Create the output data screen layout.
-
-        Returns:
-            ComposeResult: The composed UI elements for the output data screen.
-        """
-        yield Vertical(
-            Label("Output", id="output-title"),
-            Label(f"Name: {self.person_query.fullname}", classes="output-label"),
-            Static(),
-            Label(f"Date of Birth: {self.person_query.dob}", classes="output-label"),
-            Static(),
-            Label(f"Date of Death: {self.person_query.dod}", classes="output-label"),
-            Static(),
-            Label(f"Age: {self.person_query.age}", classes="output-label"),
-            Static(),
-            Button("Ok", variant="success", id="ok"),
-            Static(),
-            id="output-screen"
-        )
-
-    def on_button_pressed(self, event: Button.Pressed) -> None:
-        """Handle button presses in the OutputData screen.
-        
-        Args:
-            event (Button.Pressed): The button press event.
-        """
-        if event.button.id == "ok":
-            self.dismiss()
-
-
-class FileViewScreen(Screen):
-    """Screen to select a file from the system."""
-    CSS_PATH = "File.tcss"
-    path: reactive[str | None] = reactive(None)
-    selected_file: reactive[str | None] = reactive(None)
-    process_file_contents: callable = None  
-
-    def __init__(self, process_file_contents: callable[[str], bool]):
-        super().__init__()
-        self.process_file_contents = process_file_contents
-        self.processed = False
-
-    def compose(self) -> ComposeResult:
-        """Create the file selection screen layout.
-        
-        Returns:
-            ComposeResult: The composed UI elements for the file selection screen.
-        """
-        if sys.platform == "win32":
-            path = "C:\\"  
-        else:
-            path = "/"  
-        self.path = path
-
-        yield Header()
-        yield DirectoryTree(path, id="tree-view")
-        yield Button("Confirm Selection", id="confirm-button")
-        yield Button("Clear Selection", id="clear-button")
-        yield Footer()
-
-    def on_mount(self) -> None:
-        """Focus the directory tree on mount."""
-        tree = self.query_one(DirectoryTree)
-        tree.focus()
-
-    def on_directory_tree_file_selected(self, event: DirectoryTree.FileSelected) -> None:
-        """Handle when a file is selected in the DirectoryTree.
-        
-        Args:
-            event (DirectoryTree.FileSelected): The file selection event containing
-                                              the selected file path.
-        """
-        file_path = event.path
-        if file_path.is_file() and file_path.suffix == ".txt":
-            self.selected_file = str(file_path)
-            self.notify(f"Selected file: {file_path}")
-        else:
-            self.selected_file = None
-            self.notify("Only text files can be selected.")
-
-    def on_button_pressed(self, event: Button.Pressed) -> None:
-        """Handle button presses in the file selection screen.
-        
-        Args:
-            event (Button.Pressed): The button press event containing
-                                  the ID of the pressed button.
-        """
-        if event.button.id == "confirm-button":
-            if self.selected_file:
-                with open(self.selected_file, "r") as file:
-                    file_contents = file.read()
-                    self.processed = self.process_file_contents(file_contents)
-                self.dismiss(self.processed)  
-            else:
-                self.notify("Please select a valid text file first!")
-        elif event.button.id == "clear-button":
-            self.selected_file = None
-            self.notify("File selection cleared.")
-
-
-if __name__ == "__main__":
-    db = Database()
-    app = QueryApp(db=db)
-    app.run()
