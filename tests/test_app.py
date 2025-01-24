@@ -1,6 +1,6 @@
 import pytest
 from unittest.mock import MagicMock
-from wikipedia_name_query.tui import QueryApp
+from wikipedia_name_query.TUI.query_app import QueryApp
 from wikipedia_name_query.input_database import Database
 
 
