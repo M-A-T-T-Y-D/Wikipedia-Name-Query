@@ -1,7 +1,7 @@
 """
 Imported Modules:
-- logging: Allows for logging messages to the console or a file
-- SPARQLWrapper: A Python library for querying SPARQL endpoints
+- logging: Allows for logging messages to the console or a file.
+- SPARQLWrapper: A Python library for querying SPARQL endpoints.
 """
 import logging
 from SPARQLWrapper import SPARQLWrapper, JSON
@@ -16,48 +16,65 @@ file_handler.setFormatter(formatter)
 file_handler.flush()
 logger.addHandler(file_handler)
 
-class Query():
+
+class Query:
     '''
-    This is a class used to hold the query
+    A class for executing SPARQL queries to retrieve information about a person.
+
+    Methods
+    -------
+    get_person_info(person_name: str) -> list[list[str | None]] | None
+        Queries DBpedia for the given person and retrieves relevant data, such as their
+        name, birth date, and (optionally) death date.
     '''
+
     @staticmethod
-    def get_person_info(person_name):
+    def get_person_info(person_name: str) -> list[list[str | None]] | None:
         '''
-        This function queries dbpedia for the entered person and retrieves the data needed,
-        this is then put into a format and ready to be output
+        Queries DBpedia for the given person and retrieves relevant data, 
+        such as their name, birth date, and (optionally) death date.
         
         Parameters
-        -----------
+        ----------
         person_name : str
-            The name of the person to query
+            The name of the person to query.
+
+        Returns
+        -------
+        person_info : list of lists or None
+            A list of lists where each inner list contains the full name (str),
+            birth date (str), and optionally the death date (str or None). 
+            Returns None if no information is found.
+
+        Raises
+        ------
+        ValueError
+            If the `person_name` parameter is None.
         '''
-        # Check if the person_name is None
         if person_name is None:
             logger.error("person_name is None")
             raise ValueError("person_name cannot be None")
 
-        # Set up the SPARQL endpoint
         sparql = SPARQLWrapper("http://dbpedia.org/sparql")
-        sparql.setQuery("""
+        sparql.setQuery(f"""
             PREFIX foaf: <http://xmlns.com/foaf/0.1/>
             PREFIX dbo: <http://dbpedia.org/ontology/>
 
             SELECT ?name ?birthDate ?deathDate
-            WHERE {
+            WHERE {{
                 ?person foaf:name ?name ;
                         dbo:birthDate ?birthDate .
-                OPTIONAL { ?person dbo:deathDate ?deathDate }
+                OPTIONAL {{ ?person dbo:deathDate ?deathDate }}
                 FILTER (lang(?name) = 'en')
-                FILTER (regex(?name, "%s", "i"))
-            }
-        """ % person_name)
+                FILTER (regex(?name, "{person_name}", "i"))
+            }}
+        """)
 
         sparql.setReturnFormat(JSON)
         results = sparql.query().convert()
 
-        # Log the input name and results
-        #logger.debug("Querying for person: %s", person_name)
-        #logger.debug("Query results: %s", results)
+        logger.debug("Querying for person: %s", person_name)
+        logger.debug("Query results: %s", results)
 
         person_info = []
         for result in results["results"]["bindings"]:
